@@ -1,8 +1,6 @@
-// components/RankingTable.js
-
 const RankingTable = ({ rankings }) => {
     return (
-      <table border="1" style={{ width: '100%', textAlign: 'left', marginTop: '20px' }}>
+      <table>
         <thead>
           <tr>
             <th>Rank</th>
@@ -14,14 +12,14 @@ const RankingTable = ({ rankings }) => {
           </tr>
         </thead>
         <tbody>
-          {rankings.map((ranking, index) => (
+          {rankings.map((team, index) => (
             <tr key={index}>
-              <td>{ranking.rank}</td>
-              <td>{ranking.team}</td>
-              <td>{ranking.match}</td>
-              <td>{ranking.elimination}</td>
-              <td>{ranking.point}</td>
-              <td>{ranking.total}</td>
+              <td>{team.rank}</td>
+              <td>{team.team}</td>
+              <td>{team.match}</td>
+              <td>{team.elimination}</td>
+              <td>{team.point}</td>
+              <td>{team.total}</td>
             </tr>
           ))}
         </tbody>
@@ -30,4 +28,3 @@ const RankingTable = ({ rankings }) => {
   };
   
   export default RankingTable;
-  

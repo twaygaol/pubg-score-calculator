@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InputForm from '../components/InputForm';
 import RankingTable from '../components/RangkingTable';
 
@@ -12,8 +12,12 @@ const calculatePoints = (kills, position) => {
 
 const Home = () => {
   const [points, setPoints] = useState(null);
-  const [rankings, setRankings] = useState([{} ,
-  ]);
+  const [rankings, setRankings] = useState([]);
+
+  useEffect(() => {
+    const storedRankings = JSON.parse(localStorage.getItem('teams')) || [];
+    setRankings(storedRankings);
+  }, []);
 
   const handleCalculate = (teamName, kills, position) => {
     const totalPoints = calculatePoints(kills, position);
@@ -26,9 +30,11 @@ const Home = () => {
       point: totalPoints,
       total: totalPoints,
     };
-    const updatedRankings = [...rankings, newRanking].sort((a, b) => b.total - a.total)
+    const updatedRankings = [...rankings, newRanking]
+      .sort((a, b) => b.total - a.total)
       .map((ranking, index) => ({ ...ranking, rank: index + 1 }));
     setRankings(updatedRankings);
+    localStorage.setItem('teams', JSON.stringify(updatedRankings));
   };
 
   return (
