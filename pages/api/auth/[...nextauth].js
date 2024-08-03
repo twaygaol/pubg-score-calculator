@@ -10,6 +10,7 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
+        // Dummy user for demonstration. Replace with actual user validation.
         const user = { id: 1, name: "admin", email: "admin@example.com" };
         if (
           credentials.username === "admin" &&
@@ -23,7 +24,7 @@ export default NextAuth({
     }),
   ],
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/auth/signin", 
   },
   session: {
     jwt: true,

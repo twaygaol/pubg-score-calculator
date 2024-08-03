@@ -1,55 +1,20 @@
-'use client';
+'use client'
 
-import { useState, useEffect } from 'react';
-import InputForm from '../components/InputForm';
-import RankingTable from '../components/RangkingTable';
+import { signIn } from 'next-auth/react';
 
-const calculatePoints = (kills, position) => {
-  const killPoints = kills * 20;
-  const positionPoints = 100 - (position * 5);
-  return killPoints + positionPoints;
-};
-
-const Home = () => {
-  const [points, setPoints] = useState(null);
-  const [rankings, setRankings] = useState([]);
-
-  useEffect(() => {
-    const storedRankings = JSON.parse(localStorage.getItem('teams')) || [];
-    setRankings(storedRankings);
-  }, []);
-
-  const handleCalculate = (teamName, kills, position) => {
-    const totalPoints = calculatePoints(kills, position);
-    setPoints(totalPoints);
-    const newRanking = {
-      rank: rankings.length + 1,
-      team: teamName,
-      match: 1,
-      elimination: kills,
-      point: totalPoints,
-      total: totalPoints,
-    };
-    const updatedRankings = [...rankings, newRanking]
-      .sort((a, b) => b.total - a.total)
-      .map((ranking, index) => ({ ...ranking, rank: index + 1 }));
-    setRankings(updatedRankings);
-    localStorage.setItem('teams', JSON.stringify(updatedRankings));
-  };
-
+export default function Home() {
   return (
-    <div>
-      <h1>PUBG Mobile Score Calculator</h1>
-      <InputForm onCalculate={handleCalculate} />
-      {points !== null && (
-        <div>
-          <h2>Total Points: {points}</h2>
-        </div>
-      )}
-      <h2>Ranking Table</h2>
-      <RankingTable rankings={rankings} />
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Our App</h1>
+        <p className="mb-8">Your one-stop solution for team management and brackets.</p>
+        <button 
+          onClick={() => signIn()} 
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+        >
+          Login
+        </button>
+      </div>
     </div>
   );
-};
-
-export default Home;
+}
